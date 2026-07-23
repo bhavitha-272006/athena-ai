@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Athena Login</title>
+    </head>
+    <body>
+        <h1>Athena Login</h1>
+        <input type="text" id="username" placeholder="enter username">
+        <br>
+        <br>
+        <input type="text" id="password" placeholder="enter password">
+        <br>
+        <button id="LoginBtn">Login</button>
+        <p id="result"></p>
+        <script>
+            async function login()
+            {
+                try{
+                let username=document.getElementById("username").value;
+                let password=document.getElementById("password").value;
+                if(username=="" && password=="")
+                {
+                    document.getElementById("result").innerText="fill all fields";
+                    return;
+                }
+                if(username=="")
+                {
+                    document.getElementById("result").innerText= "please enter username"; 
+                    return ;
+                }
+                if(password=="")
+                {                   
+                    document.getElementById("result").innerText= "please enter password"; 
+                    return ;
+                }
+                let user={
+                    username:username,
+                    password:password
+                };                    
+                document.getElementById("LoginBtn").disabled = true;
+                document.getElementById("LoginBtn").innerText = "Logging in...";
+                let response=await fetch("http://127.0.0.1:8000/login",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(user)
+                })
+                let data=await response.json();
+                if(data.success)
+                {
+                    localStorage.setItem("username", data.username);
+                    window.location.href = "dashboard.html";
+                }
+                else
+                {
+                    document.getElementById("result").innerText = data.message;
+                }   
+            }
+            catch(error){
+                document.getElementById("result").innerText =
+                "Server is not responding.";
+            }
+            finally{
+                document.getElementById("LoginBtn").disabled = false;
+                document.getElementById("LoginBtn").innerText =
+                "Login";
+            }
+            
+        }
+        document.getElementById("LoginBtn").addEventListener("click", login);
+        </script>
+    </body>
+</html>
