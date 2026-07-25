@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>planner</title>
+    </head>
+    <body>
+        <h1>Planner</h1>
+        <p>Task</p>
+        <input id="task" placeholder="enter task">
+        <button id="add">Add Task</button>
+        <div id="taskList"></div>
+        <button id="backBtn">← Back to Dashboard</button>
+        <script>
+            function addTask()
+            {
+                let tasks=document.getElementById("task").value;
+                if(tasks=="")
+                {
+                    return;
+                }
+                
+                let p = document.createElement("p");
+                p.innerText=tasks;
+                document.getElementById("taskList").appendChild(p);
+                document.getElementById("task").value = "";
+                
+            }
+            function back()
+            {
+                window.location.href='dashboard.html';
+            }
+            document.getElementById("add").addEventListener("click", addTask);
+            document.getElementById("backBtn").addEventListener("click", back);
+        </script>
+    </body>
+</html>

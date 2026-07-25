@@ -1,11 +1,73 @@
 <!doctype html>
 <html>
     <head>
-        <title>dashboard</title>
+        <title>Athena Dashboard</title>
+        <style>
+            .navbar{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            div{
+                border: 2px solid black;
+                border-radius: 10px;
+                padding: 20px;
+                margin:20px;
+                box-shadow:5px 5px 10px gray;
+            }
+            button{
+                background-color: royalblue;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 20px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            button:hover{
+                background-color: darkblue;
+            }
+            .container{
+                display:flex;
+                justify-content: center;
+            }
+            .card{
+                display:flex;
+                flex-direction: column;
+            }
+            .card:hover{
+                transform: translateY(-10px);
+                box-shadow:8px 8px 20px gray;
+            }
+        </style>
+        
     </head>
+
     <body>
-        <h1 id="username"></h1>
-        <button id="logoutBtn">Logout</button>
+
+        <div class="navbar">
+            <h2>🧠 Athena AI</h2>
+            <p id="welcome"></p>
+            <button id="logoutBtn">Logout</button>
+        </div>
+
+        <div class="container">
+        <div class="card">
+            <h2> 📅 planner</h2>
+            <p>Manage your daily tasks</p>
+            <button onclick="window.location.href='planner.html'">Open Planner</button>
+        </div>
+        <div class="card">
+            <h2> 📄 Documents</h2>
+            <p>Upload and summarize PDFs</p>
+            <button>Open Documents</button>
+        </div>
+        <div class="card">
+            <h2> 🤖 Career Roadmap</h2>
+            <p>Generate AI Roadmap</p>
+            <button>Open Roadmap</button>
+        </div>
+        </div>
         <script>
             let username = localStorage.getItem("username");
             if(username == null)
@@ -14,7 +76,7 @@
             }
             else
             {
-            document.getElementById("username").innerText ="Welcome " + username;
+            document.getElementById("welcome").innerText ="Welcome " + username;
             }
             function logout()
             {
@@ -23,5 +85,6 @@
             }
             document.getElementById("logoutBtn").addEventListener("click", logout);
         </script>
+        
     </body>
 </html>
