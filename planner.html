@@ -11,18 +11,36 @@
         <div id="taskList"></div>
         <button id="backBtn">← Back to Dashboard</button>
         <script>
+            let tasks = [];
+            function createTask(taskText)
+            {
+                let taskContainer = document.createElement("div");
+                let p = document.createElement("p");
+                p.innerText = taskText ;
+                taskContainer.appendChild(p);
+            }
             function addTask()
             {
-                let tasks=document.getElementById("task").value;
-                if(tasks=="")
+                let taskText =document.getElementById("task").value;
+                if(taskText=="")
                 {
                     return;
                 }
-                
-                let p = document.createElement("p");
-                p.innerText=tasks;
-                document.getElementById("taskList").appendChild(p);
+                tasks.push(taskText);
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                console.log(tasks);
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "Delete";
+                taskContainer.appendChild(deleteBtn);
+                document.getElementById("taskList").appendChild(taskContainer);
                 document.getElementById("task").value = "";
+                deleteBtn.addEventListener("click", function()
+                {
+                    let index = tasks.indexOf(taskText);
+                    tasks.splice(index, 1);
+                    taskContainer.remove();
+                    console.log(tasks);
+                });
                 
             }
             function back()
