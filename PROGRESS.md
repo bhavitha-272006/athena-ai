@@ -68,3 +68,21 @@
 - Multiple Tasks using Arrays
 - Local Storage Integration
 - Persistent Tasks After Refresh
+
+## Planner Module 🚀
+
+Completed Features
+
+- Add Task
+- Delete Task
+- Dynamic DOM Creation
+- Array Management
+- localStorage Save (JSON.stringify)
+- Refactored using createTask() function
+- Dashboard ↔ Planner Navigation
+
+In Progress
+
+- Load tasks from localStorage after page refresh
+
+Status: 🚧 In Progress
