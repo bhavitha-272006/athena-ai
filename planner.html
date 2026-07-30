@@ -18,6 +18,18 @@
                 let p = document.createElement("p");
                 p.innerText = taskText ;
                 taskContainer.appendChild(p);
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "Delete";
+                taskContainer.appendChild(deleteBtn);
+                document.getElementById("taskList").appendChild(taskContainer);
+                deleteBtn.addEventListener("click", function()
+                {
+                    let index = tasks.indexOf(taskText);
+                    tasks.splice(index, 1);
+                    localStorage.setItem("tasks", JSON.stringify(tasks));
+                    taskContainer.remove();
+                    console.log(tasks);
+                });
             }
             function addTask()
             {
@@ -29,23 +41,21 @@
                 tasks.push(taskText);
                 localStorage.setItem("tasks", JSON.stringify(tasks));
                 console.log(tasks);
-                let deleteBtn = document.createElement("button");
-                deleteBtn.innerText = "Delete";
-                taskContainer.appendChild(deleteBtn);
-                document.getElementById("taskList").appendChild(taskContainer);
+                createTask(taskText);
                 document.getElementById("task").value = "";
-                deleteBtn.addEventListener("click", function()
-                {
-                    let index = tasks.indexOf(taskText);
-                    tasks.splice(index, 1);
-                    taskContainer.remove();
-                    console.log(tasks);
-                });
-                
             }
             function back()
             {
                 window.location.href='dashboard.html';
+            }
+            let savedTasks = localStorage.getItem("tasks");
+            if(savedTasks)
+            {
+                tasks = JSON.parse(savedTasks);
+            }
+            for(let i=0;i<tasks.length;i++)
+            {
+                createTask(tasks[i])
             }
             document.getElementById("add").addEventListener("click", addTask);
             document.getElementById("backBtn").addEventListener("click", back);
