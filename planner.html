@@ -2,8 +2,22 @@
 <html>
     <head>
         <title>planner</title>
+        <style>
+        .taskContainer
+        {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            width: 250px;
+        }
+        .deleteBtn
+        {
+            margin-left: auto;
+        }
+    </style>
     </head>
     <body>
+        
         <h1>Planner</h1>
         <p>Task</p>
         <input id="task" placeholder="enter task">
@@ -12,24 +26,43 @@
         <button id="backBtn">← Back to Dashboard</button>
         <script>
             let tasks = [];
-            function createTask(taskText)
+            function createTask(task)
             {
                 let taskContainer = document.createElement("div");
-                let p = document.createElement("p");
-                p.innerText = taskText ;
+                taskContainer.className = "taskContainer";
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                taskContainer.appendChild(checkbox);
+                checkbox.checked = task.completed; 
+                let p = document.createElement("span");
+                p.innerText = task.text;
                 taskContainer.appendChild(p);
                 let deleteBtn = document.createElement("button");
                 deleteBtn.innerText = "Delete";
+                deleteBtn.className = "deleteBtn";
                 taskContainer.appendChild(deleteBtn);
-                document.getElementById("taskList").appendChild(taskContainer);
                 deleteBtn.addEventListener("click", function()
                 {
-                    let index = tasks.indexOf(taskText);
+                    let index = tasks.indexOf(task);
                     tasks.splice(index, 1);
                     localStorage.setItem("tasks", JSON.stringify(tasks));
                     taskContainer.remove();
                     console.log(tasks);
                 });
+                checkbox.addEventListener("change", function()
+                {
+                    task.completed = checkbox.checked;
+                    if(task.completed)
+                    {
+                        p.style.textDecoration = "line-through";
+                    }
+                    else
+                    {
+                        p.style.textDecoration = "none";
+                    }
+                    localStorage.setItem("tasks", JSON.stringify(tasks));
+                });
+                document.getElementById("taskList").appendChild(taskContainer);            
             }
             function addTask()
             {
@@ -38,11 +71,15 @@
                 {
                     return;
                 }
-                tasks.push(taskText);
+                tasks.push({
+                    text: taskText,
+                    completed: false
+                });
                 localStorage.setItem("tasks", JSON.stringify(tasks));
                 console.log(tasks);
-                createTask(taskText);
+                createTask(tasks[tasks.length - 1]);
                 document.getElementById("task").value = "";
+                
             }
             function back()
             {
